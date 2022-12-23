@@ -17,7 +17,11 @@ const schema = Joi.object().keys({
 
 router.get('', async (req, res) => {
     const response = await db.user.findAll({
-       
+        include: [
+            {
+                model: db.product
+            }
+            ]
         })
     res.status(200).send({
         messgae: "Router API",
@@ -130,9 +134,9 @@ router.delete('/transactions/:id', async (req, res) => {
         })
     }
     else {
-        res.status(200).send({
+        res.status(202).send({
             error: { transsactionResponse },
-            status: 200,
+            status: 202,
             message: "Rolled back Transaction"
         })
     }
