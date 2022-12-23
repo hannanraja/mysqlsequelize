@@ -134,12 +134,33 @@ productservices.patch('/update/:id', async (req, res) => {
                 res.status(404).send({ message: " ID not found ", status: 404, response })
             }
         }
-        catch {
-
+        catch(err) {
+            throw new Error (err)
         }
     }
     else {
         res.status(400).send({message:"data missing in body"})
+    }
+})
+
+productservices.delete('/deleteall', async (req, res) => {
+    const response = await model.product.destroy({
+        where: {},
+        truncate: true
+    })
+    if (response == 0) {
+        res.status(200).send({
+            message: "Delete all data successfully",
+            status: 200,
+            response
+        })
+    }
+    else {
+        res.status(505).send({
+            message: "error deleting data",
+            status: 200,
+            error: 200
+        })
     }
 })
 
